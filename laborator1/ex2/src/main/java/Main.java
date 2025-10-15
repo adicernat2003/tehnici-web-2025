@@ -15,10 +15,11 @@ public class Main {
          * citire bean din context by type
          */
         BankAccount b1 = context.getBean(BankAccount.class);
-        BankAccount b2 = context.getBean(BankAccount.class);
+//        BankAccount b2 = context.getBean(BankAccount.class);
 
-//        BankAccount b1 = (BankAccount) context.getBean("bankAcc2");
+        BankAccount b2 = (BankAccount) context.getBean("bankAcc2");
         System.out.println(b1);
+        System.out.println(b2);
         /**
          * Pentru mai multe beans in context avem mai multe posibilitati de
          * diferentiere:

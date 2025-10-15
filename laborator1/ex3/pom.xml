@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This defines the XML schema for the Project Object Model (POM). It ensures Maven can understand and validate the file format. -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>ex3</artifactId>
+    <groupId>org.example</groupId> <!-- The organization, often reverse domain name -->
+    <artifactId>ex3</artifactId> <!-- The project/module name-->
     <version>1.0-SNAPSHOT</version>
+
+    <!-- When Maven builds the project, it produces a file like: ex3-1.0-SNAPSHOT.jar -->
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -14,6 +19,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+
+        <!-- Spring Context is part of the Spring Framework — it provides:
+            1. Dependency Injection (ApplicationContext)
+            2. Bean lifecycle management
+            3. Configuration with annotations or XML
+         -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>

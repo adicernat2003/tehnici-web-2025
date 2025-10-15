@@ -12,9 +12,8 @@ public class DatabaseConnectionService {
      * -on constructor
      * -on setter
      */
-//    @Autowired
+    //    @Autowired
     private final DbConnection dbConnection;
-
 
     private DatabaseConnectionService(@Qualifier("oracle") DbConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -23,4 +22,9 @@ public class DatabaseConnectionService {
     public void connect() {
         dbConnection.connectToDatabase();
     }
+
+//    @Autowired
+//    public void setDbConnection(@Qualifier("mysql") DbConnection dbConnection) {
+//        this.dbConnection = dbConnection;
+//    }
 }
