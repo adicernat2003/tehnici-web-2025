@@ -1,0 +1,38 @@
+GET http://localhost:8080/api/v1/people
+
+###
+GET http://localhost:8080/api/v1/people/1
+
+###
+POST http://localhost:8080/api/v1/people
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "test@email.com"
+}
+
+###
+PUT http://localhost:8080/api/v1/people/5
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 31,
+  "email": "test@email.com"
+}
+
+###
+PATCH http://localhost:8080/api/v1/people/5
+Content-Type: application/json
+
+{
+  "name": "Adrian1",
+  "email": "email@test.com",
+  "age": 22,
+  "abc": 1231
+}
+
+###
+DELETE http://localhost:8080/api/v1/people/5
