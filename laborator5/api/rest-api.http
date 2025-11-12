@@ -1,0 +1,25 @@
+GET http://localhost:8080/api/widgets
+
+###
+GET http://localhost:8080/api/widgets/1
+
+###
+POST http://localhost:8080/api/widgets
+Content-Type: application/json
+
+{
+  "name": "new widget",
+  "description": "new widget description"
+}
+
+###
+PUT http://localhost:8080/api/widgets/1
+Content-Type: application/json
+
+{
+  "name": "widget 1",
+  "email": "description updated"
+}
+
+###
+DELETE http://localhost:8080/api/widgets/1
