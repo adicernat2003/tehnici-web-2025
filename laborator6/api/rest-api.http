@@ -1,0 +1,15 @@
+GET http://localhost:8080/api/users
+
+###
+GET http://localhost:8080/api/users/1
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada@example.com",
+  "birthDate": "1990-12-10"
+}
