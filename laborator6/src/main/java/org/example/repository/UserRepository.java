@@ -36,11 +36,9 @@ public class UserRepository {
         return Boolean.TRUE.equals(exists);
     }
 
-    public User insert(User u) {
-        String sql = "INSERT INTO users(first_name,last_name,email,birth_date) VALUES (?,?,?,?) RETURNING id";
-        Long id = jdbc.queryForObject(sql, Long.class, u.getFirstName(), u.getLastName(), u.getEmail(), u.getBirthDate());
-        u.setId(id);
-        return u;
+    public void insert(User u) {
+        String sql = "INSERT INTO users(first_name,last_name,email,birth_date) VALUES (?,?,?,?)";
+        jdbc.update(sql, u.getFirstName(), u.getLastName(), u.getEmail(), u.getBirthDate());
     }
 
     public void update(User u) {
@@ -61,6 +59,10 @@ public class UserRepository {
     }
 
     public void delete(long id) {
+        List<User> list = jdbc.query("SELECT * FROM users WHERE id = ?", MAPPER, id);
+        if (list.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
         jdbc.update("DELETE FROM users WHERE id = ?", id);
     }
 }

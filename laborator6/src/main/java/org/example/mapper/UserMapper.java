@@ -1,7 +1,8 @@
 package org.example.mapper;
 
-import org.example.model.User;
 import org.example.dto.UserPayload;
+import org.example.dto.UserResponse;
+import org.example.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,9 +14,6 @@ public class UserMapper {
         u.setLastName(p.getLastName());
         u.setEmail(p.getEmail());
         u.setBirthDate(p.getBirthDate());
-        if (p.getId() != null) {
-            u.setId(p.getId());
-        }
         return u;
     }
 
@@ -25,5 +23,14 @@ public class UserMapper {
         u.setEmail(p.getEmail());
         u.setBirthDate(p.getBirthDate());
         return u;
+    }
+
+    public UserResponse toResponse(User u) {
+        UserResponse r = new UserResponse();
+        r.setFirstName(u.getFirstName());
+        r.setLastName(u.getLastName());
+        r.setEmail(u.getEmail());
+        r.setBirthDate(u.getBirthDate());
+        return r;
     }
 }

@@ -13,3 +13,83 @@ Content-Type: application/json
   "email": "ada@example.com",
   "birthDate": "1990-12-10"
 }
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada",
+  "birthDate": "1990-12-10"
+}
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-12-10"
+}
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-19-10"
+}
+
+###
+PUT http://localhost:8080/api/users/5
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-19-10"
+}
+
+###
+PUT http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-19-10"
+}
+
+###
+PATCH http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-19-10"
+}
+
+###
+PUT http://localhost:8080/api/users/5
+Content-Type: application/text
+
+{
+  "firstName": "",
+  "lastName": null,
+  "email": "ada@example.com",
+  "birthDate": "2026-19-10"
+}
+
+###
+DELETE http://localhost:8080/api/users/1

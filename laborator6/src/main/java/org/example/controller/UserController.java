@@ -1,13 +1,12 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.UserPayload;
-import org.example.model.User;
+import org.example.dto.UserResponse;
 import org.example.service.UserService;
-import org.example.validation.Groups;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,24 +29,24 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<User> create(@Validated(Groups.Create.class) @RequestBody UserPayload p) {
-        return new ResponseEntity<>(service.create(p), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@Valid @RequestBody UserPayload p) {
+        service.create(p);
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable(name = "id") @Min(1) long id,
-                       @Validated(Groups.Update.class) @RequestBody UserPayload p) {
-        p.setId(id);
-        return service.update(p);
+    public void update(@PathVariable(name = "id") @Min(1) long id,
+                       @Valid @RequestBody UserPayload p) {
+        service.update(id, p);
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable(name = "id") @Min(1) long id) {
+    public UserResponse get(@PathVariable(name = "id") @Min(1) long id) {
         return service.get(id);
     }
 
     @GetMapping
-    public List<User> list() {
+    public List<UserResponse> list() {
         return service.list();
     }
 
