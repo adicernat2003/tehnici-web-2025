@@ -11,11 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.StringUtils;
-import org.springframework.web.ErrorResponseException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -56,12 +54,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, ex, req, rootMessage(ex));
     }
 
-    // 400: query param missing
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ApiError> handleMissingParam(MissingServletRequestParameterException ex, HttpServletRequest req) {
-        return build(HttpStatus.BAD_REQUEST, ex, req, ex.getMessage());
-    }
-
     // 400: path variable type mismatch
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiError> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest req) {
@@ -88,13 +80,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex, req, ex.getMessage());
     }
 
-    // Map Spring's ErrorResponseException (e.g., ResponseStatusException) through same format
-    @ExceptionHandler(ErrorResponseException.class)
-    public ResponseEntity<ApiError> handleErrorResponse(ErrorResponseException ex, HttpServletRequest req) {
-        HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
-        return build(status, ex, req, rootMessage(ex));
-    }
-
     // Custom domain/business exceptions → decide status per your use-case
     @ExceptionHandler(ResourceConflictException.class)
     public ResponseEntity<ApiError> handleConflict(ResourceConflictException ex, HttpServletRequest req) {
@@ -106,7 +91,7 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.NOT_FOUND, ex, req, "User not found");
     }
 
-    // 500: safety net
+    // 500: any other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAll(Exception ex, HttpServletRequest req) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, ex, req, "Unexpected error");
