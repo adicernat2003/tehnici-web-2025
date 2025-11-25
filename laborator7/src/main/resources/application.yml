@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo
+    username: user
+    password: password
+  sql:
+    init:
+      mode: always
+  main:
+    banner-mode: off
+    log-startup-info: false
