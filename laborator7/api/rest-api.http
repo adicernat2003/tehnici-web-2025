@@ -1,0 +1,63 @@
+GET http://localhost:8080/api/books
+
+###
+
+GET http://localhost:8080/api/books/titles
+
+###
+
+GET http://localhost:8080/api/books/search?author=Cra
+
+###
+
+GET http://localhost:8080/api/books/count-by-author
+
+###
+
+GET http://localhost:8080/api/books/count
+
+###
+
+GET http://localhost:8080/api/books/1
+
+###
+
+POST http://localhost:8080/api/books/batch
+Content-Type: application/json
+
+[
+  {
+    "title": "Refactoring",
+    "author": "Martin Fowler",
+    "priceEur": 47.99
+  },
+  {
+    "title": "Java Concurrency in Practice",
+    "author": "Brian Goetz",
+    "priceEur": 44.50
+  }
+]
+
+###
+
+POST http://localhost:8080/api/books
+Content-Type: application/json
+
+{
+  "title": "Java Concurrency in Practice",
+  "author": "Brian Goetz",
+  "priceEur": 100.50
+}
+
+###
+
+PUT http://localhost:8080/api/books/1/price
+Content-Type: application/json
+
+{
+  "priceEur": 100.1
+}
+
+###
+
+DELETE http://localhost:8080/api/books/1

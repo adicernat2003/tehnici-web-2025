@@ -11,47 +11,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
-    private final BookRepository repo;
+    private final BookRepository repository;
 
     public List<Book> getAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
     public Optional<Book> getById(Long id) {
-        return repo.findById(id);
+        return repository.findById(id);
     }
 
     public Book create(Book b) {
-        return repo.create(b.getTitle(), b.getAuthor(), b.getPriceEur());
+        return repository.create(b.getTitle(), b.getAuthor(), b.getPriceEur());
     }
 
     public boolean updatePrice(Long id, BigDecimal price) {
-        return repo.updatePrice(id, price) == 1;
+        return repository.updatePrice(id, price) == 1;
     }
 
     public boolean delete(Long id) {
-        return repo.deleteById(id) == 1;
+        return repository.deleteById(id) == 1;
     }
 
-    public List<String> getTitles() {
-        return repo.findAllTitles();
+    public List<String> getDistinctTitles() {
+        return repository.findDistinctTitles();
     }
 
-    public List<Book> searchByAuthor(String q) {
-        return repo.searchByAuthorContains(q);
+    public List<Book> searchByAuthor(String authorFragment) {
+        return repository.searchByAuthorContains(authorFragment);
     }
 
     public Map<String, Long> countByAuthor() {
-        return repo.countByAuthor();
+        return repository.countByAuthor();
+    }
+
+    public long countAll() {
+        return repository.count();
     }
 
     @Transactional
     public void batchCreate(List<Book> books) {
-        repo.batchInsert(books);
+        repository.batchInsert(books);
     }
 }

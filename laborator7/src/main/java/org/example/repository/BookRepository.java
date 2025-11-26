@@ -46,8 +46,8 @@ public class BookRepository {
     }
 
     // 3) queryForList(...) for a single column
-    public List<String> findAllTitles() {
-        return jdbc.queryForList("SELECT title FROM books ORDER BY title", String.class);
+    public List<String> findDistinctTitles() {
+        return jdbc.queryForList("SELECT DISTINCT title FROM books ORDER BY title", String.class);
     }
 
     // 4) queryForObject(...) for scalar

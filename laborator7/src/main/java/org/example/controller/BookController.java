@@ -33,7 +33,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> byId(@PathVariable Long id) {
+    public ResponseEntity<Book> byId(@PathVariable(name = "id") Long id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -46,24 +46,29 @@ public class BookController {
     }
 
     @PutMapping("/{id}/price")
-    public ResponseEntity<Void> updatePrice(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+    public ResponseEntity<Void> updatePrice(@PathVariable(name = "id") Long id, @RequestBody Map<String, Object> body) {
         var price = new BigDecimal(body.get("priceEur").toString());
         return service.updatePrice(id, price) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/titles")
     public List<String> titles() {
-        return service.getTitles();
+        return service.getDistinctTitles();
     }
 
     @GetMapping("/search")
     public List<Book> search(@RequestParam("author") String authorFragment) {
         return service.searchByAuthor(authorFragment);
+    }
+
+    @GetMapping("/count")
+    public long count() {
+        return service.countAll();
     }
 
     @GetMapping("/count-by-author")
