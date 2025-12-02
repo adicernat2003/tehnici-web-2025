@@ -1,7 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.customer.CustomerRepository;
+import org.example.repository.CustomerRepository;
 import org.example.model.Customer;
 import org.springframework.stereotype.Service;
 
