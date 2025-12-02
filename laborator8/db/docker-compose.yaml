@@ -1,0 +1,11 @@
+services:
+  postgres-demo:
+    image: postgres:latest
+    container_name: postgres-demo
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: demo
