@@ -30,7 +30,6 @@ public class OrderController {
         return orderService.create(order);
     }
 
-    // JPQL query example
     @GetMapping("/big-orders")
     public List<Order> bigOrdersForCustomer(@RequestParam(name = "customerId") Long customerId,
                                             @RequestParam(name = "minAmount") BigDecimal minAmount) {

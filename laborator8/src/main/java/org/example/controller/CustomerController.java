@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.CustomerNameEmail;
 import org.example.model.Customer;
 import org.example.service.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +30,18 @@ public class CustomerController {
         return customerService.create(customer);
     }
 
-    // Derived query: by last name
     @GetMapping("/search/by-lastname")
-    public List<Customer> searchByLastName(@RequestParam String lastName) {
+    public List<Customer> searchByLastName(@RequestParam(name = "lastName") String lastName) {
         return customerService.searchByLastName(lastName);
     }
 
-    // Native query: emails with given domain
     @GetMapping("/search/by-domain")
-    public List<Customer> searchByEmailDomain(@RequestParam String domain) {
+    public List<Customer> searchByEmailDomain(@RequestParam(name = "domain") String domain) {
         return customerService.searchByEmailDomainNative(domain);
+    }
+
+    @GetMapping("/search/by-last-name/dto")
+    public List<CustomerNameEmail> searchNameAndEmailByLastName(@RequestParam(name = "lastName") String lastName) {
+        return customerService.findNameAndEmailByLastName(lastName);
     }
 }
