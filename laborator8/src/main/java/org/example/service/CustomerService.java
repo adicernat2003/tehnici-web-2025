@@ -1,10 +1,9 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.repository.CustomerRepository;
 import org.example.dto.CustomerNameEmail;
-
 import org.example.model.Customer;
+import org.example.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
