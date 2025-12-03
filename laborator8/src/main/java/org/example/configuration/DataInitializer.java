@@ -1,7 +1,7 @@
 package org.example.configuration;
 
-import org.example.customer.CustomerRepository;
-import org.example.customer.OrderRepository;
+import org.example.repository.CustomerRepository;
+import org.example.repository.OrderRepository;
 import org.example.model.Customer;
 import org.example.model.Order;
 import org.example.model.OrderType;

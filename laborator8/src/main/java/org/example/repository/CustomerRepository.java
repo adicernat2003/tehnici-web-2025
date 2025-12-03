@@ -1,4 +1,4 @@
-package org.example.customer;
+package org.example.repository;
 
 import org.example.dto.CustomerNameEmail;
 import org.example.model.Customer;
