@@ -24,13 +24,12 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping
-    public ResponseEntity<Author> createAuthor(@RequestBody CreateAuthorRequest request) {
-        Author author = authorService.createAuthorWithBooks(
+    public void createAuthor(@RequestBody CreateAuthorRequest request) {
+        authorService.createAuthorWithBooks(
                 request.getName(),
                 request.getBookTitles(),
                 request.isTriggerError()
         );
-        return ResponseEntity.ok(author);
     }
 
     @GetMapping
@@ -39,8 +38,8 @@ public class AuthorController {
     }
 
     @PostMapping("/{authorId}/risky")
-    public ResponseEntity<Map<String, String>> riskyOperation(@PathVariable Long authorId,
-                                                              @RequestParam(defaultValue = "false") boolean critical) {
+    public ResponseEntity<Map<String, String>> riskyOperation(@PathVariable(name = "authorId") Long authorId,
+                                                              @RequestParam(name = "critical", defaultValue = "false") boolean critical) {
         try {
             authorService.riskyOperation(authorId, critical);
             return ResponseEntity.ok(Map.of("status", "success"));
@@ -50,6 +49,25 @@ public class AuthorController {
                     "message", e.getMessage()
             ));
         }
+    }
+
+    //    @Transactional
+    @PostMapping("/{authorId}/name")
+    public ResponseEntity<Map<String, Object>> updateAuthorNameMandatory(@PathVariable(name = "authorId") Long authorId,
+                                                                         @RequestParam(name = "newName") String newName) {
+        authorService.updateAuthorNameMandatory(authorId, newName);
+
+        return ResponseEntity.ok(Map.of(
+                "status", "success",
+                "authorId", authorId,
+                "newName", newName
+        ));
+    }
+
+    //    @Transactional
+    @GetMapping("/never")
+    public ResponseEntity<List<Author>> getAllAuthorsNever() {
+        return ResponseEntity.ok(authorService.findAuthorsNever());
     }
 
 }

@@ -1,16 +1,18 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.exception.CriticalBusinessException;
+import org.example.exception.CriticalException;
 import org.example.exception.NonCriticalException;
 import org.example.model.Author;
 import org.example.model.Book;
 import org.example.repository.AuthorRepository;
+import org.example.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ import java.util.List;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
     /**
      * Read-only transaction:
@@ -28,15 +31,18 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    @Transactional(rollbackForClassName = {"CriticalBusinessException"})
+    @Transactional(rollbackFor = CriticalException.class,
+            noRollbackFor = NonCriticalException.class)
     public void riskyOperation(Long authorId, boolean critical) {
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new RuntimeException("Author not found"));
 
         author.setName(author.getName() + " (updated)");
 
+        authorRepository.save(author);
+
         if (critical) {
-            throw new CriticalBusinessException("Critical error: rollback!");
+            throw new CriticalException("Critical error: rollback!");
         } else {
             throw new NonCriticalException("Non-critical: no rollback.");
         }
@@ -56,25 +62,26 @@ public class AuthorService {
             rollbackForClassName = {"CriticalBusinessException"},
             noRollbackForClassName = {"NonCriticalException"}
     )
-    public Author createAuthorWithBooks(String authorName,
-                                        List<String> bookTitles,
-                                        boolean triggerError) {
+    public void createAuthorWithBooks(String authorName,
+                                      List<String> bookTitles,
+                                      boolean triggerError) {
         Author author = new Author();
         author.setName(authorName);
+        List<Book> books = new ArrayList<>();
 
         for (String title : bookTitles) {
             Book book = new Book();
             book.setTitle(title);
-            author.getBooks().add(book);
+            book.setAuthor(author);
+            books.add(book);
         }
 
         authorRepository.save(author);
+        bookRepository.saveAll(books);
 
         if (triggerError) {
             throw new NonCriticalException("Non-critical problem occurred, but we keep the transaction.");
         }
-
-        return author;
     }
 
     /**
@@ -84,7 +91,6 @@ public class AuthorService {
      */
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Author> findAuthorsSupports() {
-        // This might be inside a transaction (if caller has one) or not
         return authorRepository.findAll();
     }
 
@@ -94,12 +100,11 @@ public class AuthorService {
      * - If none exists, throws IllegalTransactionStateException.
      */
     @Transactional(propagation = Propagation.MANDATORY)
-    public Author updateAuthorNameMandatory(Long authorId, String newName) {
+    public void updateAuthorNameMandatory(Long authorId, String newName) {
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new RuntimeException("Author not found"));
         author.setName(newName);
-
-        return author;
+        authorRepository.save(author);
     }
 
     /**

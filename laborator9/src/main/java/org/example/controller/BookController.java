@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
 
     @PostMapping("/{bookId}/title")
-    public ResponseEntity<Map<String, Object>> updateBookTitle(@PathVariable Long bookId,
-                                                               @RequestParam String newTitle) {
+    public ResponseEntity<Map<String, Object>> updateBookTitle(@PathVariable(name = "bookId") Long bookId,
+                                                               @RequestParam(name = "newTitle") String newTitle) {
         bookService.updateBookTitleInNewTransaction(bookId, newTitle);
 
         return ResponseEntity.ok(Map.of(
